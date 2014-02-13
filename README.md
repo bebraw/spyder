@@ -6,8 +6,6 @@
 Consider the following `config.js` for basic configuration:
 
 ```js
-var DAY = 86400000;
-
 module.exports = {
     indexer: './indexer',
     scraper: './scraper',
