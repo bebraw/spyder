@@ -9,16 +9,17 @@ Consider the following `config.js` for basic configuration:
 var DAY = 86400000;
 
 module.exports = {
-    indexer: "./indexer",
-    scraper: "./scraper",
+    indexer: './indexer',
+    scraper: './scraper',
 
     // event handlers (optional)
-    onError: "./error",
-    onResult: "./result",
+    onError: './error',
+    onResult: './result',
+    onFinish: './finish',
 
     // time controls
     variance: 5000, // variance between operations in ms
-    schedule: '00 30 11 * * 1', // cron pattern for running the spider
+    schedule: '00 30 11 * * 1', // cron pattern for running the spider (optional)
     instant: true // execute instantly (defaults to false). handy for testing
 };
 ```
@@ -55,11 +56,11 @@ module.exports = function(url, cb) {
 
 ## Events
 
-In case an error is received, module defined at `onError` is defined. When a scraping result is received, `onResult` module is invoked. To give you an idea of what these files should look like, consider the following.
+In case an error is received, module defined at `onError` is defined. When a scraping result is received, `onResult` module is invoked. Once the whole process has finished, `onFinished` is invoked. To give you an idea of what these files should look like, consider the following.
 
 `./error.js`:
 
-```
+```js
 module.exports = function(err) {
     // let's just log errors for now
     // this is also the default behavior. if you don't provide a handler,
@@ -70,12 +71,21 @@ module.exports = function(err) {
 
 `./result.js`:
 
-```
+```js
 module.exports = function(result) {
     // got some scraping result now, do something with it
     // spyder defaults to console.log (handy during development)
     console.log(result);
 };
+```
+
+`./finish.js`:
+
+```js
+module.exports = function() {
+    // spyder default
+    console.log('Finished');
+}
 ```
 
 ## Timing Options
