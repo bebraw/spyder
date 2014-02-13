@@ -4,5 +4,6 @@ module.exports = {
     onError: './demo/error',
     onResult: './demo/result',
     variance: 5000,
-    schedule: '00 00 11 * * *'
+    schedule: '00 00 11 * * *',
+    instant: true
 };

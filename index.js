@@ -35,6 +35,10 @@ function init(config) {
 
     if(indexer && scraper && schedule) {
         console.log('should init now');
+
+        if(config.instant) {
+            console.log('should execute instantly');
+        }
     }
 }
 

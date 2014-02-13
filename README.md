@@ -18,7 +18,8 @@ module.exports = {
 
     // time controls
     variance: 5000, // variance between operations in ms
-    schedule: '00 30 11 * * 1' // cron pattern for running the spider
+    schedule: '00 30 11 * * 1', // cron pattern for running the spider
+    instant: true // execute instantly (defaults to false). handy for testing
 };
 ```
 
@@ -84,6 +85,8 @@ In order to provide some control over timing of the indexing and scraping `spyde
 `variance` is given in milliseconds and refers to possible maximum delay between operations. It is possible to make `spyder` spam target sites less this way and make the traffic easier to deal with.
 
 `schedule` defines when to execute the spider using a [cron pattern](http://en.wikipedia.org/wiki/Cron).
+
+If `instant` flag is set, the spider will execute instantly. The flag defaults to false. This is handy for testing.
 
 ## License
 
