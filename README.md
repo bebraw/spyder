@@ -1,7 +1,7 @@
 [![build status](https://secure.travis-ci.org/bebraw/spyder.png)](http://travis-ci.org/bebraw/spyder)
 # spyder - Web indexer and scraper runner
 
-`spyder` provides basic architecture for running perpetual web indexers and scrapers. It comes as a CLI tool which you then provide configuration using either `-c` or `--config` parameter.
+`spyder` provides basic architecture for running perpetual web indexers and scrapers. It comes as a CLI tool which you then provide configuration using either `-c` or `--config` parameter (`spyder -c ./config.js`).
 
 Consider the following `config.js` for basic configuration:
 
