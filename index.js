@@ -28,10 +28,28 @@ function init(config) {
 
     var indexer = loadModule(config.indexer, 'indexer');
     var scraper = loadModule(config.scraper, 'scraper');
+    var onError = loadOnError(config.onError);
+    var onResult = loadOnResult(config.onResult);
 
     if(indexer && scraper) {
         console.log('should init now');
     }
+}
+
+function loadOnError(onError) {
+    if(onError) {
+        return loadModule(onError, 'onError');
+    }
+
+    return console.error.bind(console);
+}
+
+function loadOnResult(onResult) {
+    if(onResult) {
+        return loadModule(onResult, 'onResult');
+    }
+
+    return console.log.bind(console);
 }
 
 function loadModule(path, name) {
