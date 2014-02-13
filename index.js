@@ -30,8 +30,10 @@ function init(config) {
     var scraper = loadModule(config.scraper, 'scraper');
     var onError = loadOnError(config.onError);
     var onResult = loadOnResult(config.onResult);
+    var variance = config.variance || 0;
+    var schedule = config.schedule || console.error('Missing schedule!');
 
-    if(indexer && scraper) {
+    if(indexer && scraper && schedule) {
         console.log('should init now');
     }
 }
