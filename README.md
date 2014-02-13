@@ -47,7 +47,7 @@ module.exports = function(url, cb) {
     cb(null, {
         title: 'Demo'
     });
-}
+};
 ```
 
 `spyder` takes care of running these modules for you. First an indexer is invoked. After that it runs the scraper against each url indexed.

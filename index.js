@@ -16,17 +16,9 @@ function main() {
         return console.error('Missing configuration');
     }
 
-    var config = loadConfig(program.config);
+    var config = loadModule(program.config, 'configuration');
 
     init(config);
-}
-
-function loadConfig(path) {
-    try {
-        return require(path);
-    } catch(e) {
-        return console.error('Failed to load configuration');
-    }
 }
 
 function init(config) {
@@ -34,5 +26,18 @@ function init(config) {
         return;
     }
 
-    console.log('should init now');
+    var indexer = loadModule(config.indexer, 'indexer');
+    var scraper = loadModule(config.scraper, 'scraper');
+
+    if(indexer && scraper) {
+        console.log('should init now');
+    }
+}
+
+function loadModule(path, name) {
+    try {
+        return require(path);
+    } catch(e) {
+        return console.error('Failed to load ' + name + '!');
+    }
 }
