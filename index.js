@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 var async = require('async');
+var cronJob = require('cron').CronJob;
 var math = require('annomath');
 var program = require('commander');
 var wait = require('wait').wait;
@@ -43,16 +44,18 @@ function init(config) {
             execute(conf);
         }
 
-        schedule(config.schedule);
+        schedule(config.schedule, conf);
     }
 }
 
-function schedule(cron) {
+function schedule(cron, conf) {
     if(!cron) {
-        return console.error('Missing schedule!');
+        console.error('Missing schedule!');
     }
 
-    // TODO
+    console.log('execute');
+
+    new cronJob(cron, execute.bind(null, conf), null, true);
 }
 
 function execute(o) {
