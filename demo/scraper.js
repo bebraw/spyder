@@ -1,8 +1,17 @@
-module.exports = function(url, cb) {
-    // scrape the content from url now
+var request = require('request');
+var cheerio = require('cheerio');
 
-    // once finished, cb
-    cb(null, {
-        title: 'Demo'
+
+module.exports = function(url, cb) {
+    request(url, function(err, res, data) {
+        if(err) {
+            return cb(err);
+        }
+
+        var $ = cheerio.load(data);
+
+        cb(null, {
+            description: $('.description').text()
+        });
     });
 };
