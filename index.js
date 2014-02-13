@@ -32,9 +32,9 @@ function init(config) {
     var conf = {
         indexer: loadModule(config.indexer, 'indexer'),
         scraper: loadModule(config.scraper, 'scraper'),
-        onError: loadOnError(config.onError),
-        onResult: loadOnResult(config.onResult),
-        onFinish: loadOnFinished(config.onFinish),
+        onError: loadConfig(config, 'onError', console.error.bind(console)),
+        onResult: loadConfig(config, 'onResult', console.log.bind(console)),
+        onFinish: loadConfig(config, 'onFinish', console.log.bind(console, 'Finished')),
         variance: config.variance || 0
     };
 
@@ -81,28 +81,14 @@ function execute(o) {
     });
 }
 
-function loadOnError(onError) {
-    if(onError) {
-        return loadModule(onError, 'onError');
+function loadConfig(config, name, defaultFn) {
+    var property = config[name];
+
+    if(property) {
+        return loadModule(property, name);
     }
 
-    return console.error.bind(console);
-}
-
-function loadOnResult(onResult) {
-    if(onResult) {
-        return loadModule(onResult, 'onResult');
-    }
-
-    return console.log.bind(console);
-}
-
-function loadOnFinished(onFinish) {
-    if(onFinish) {
-        return loadModule(onFinish, 'onFinish');
-    }
-
-    return console.log.bind(console, 'Finished');
+    return defaultFn;
 }
 
 function loadModule(path, name) {
