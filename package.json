@@ -7,11 +7,11 @@
     "spyder": "./index.js"
   },
   "dependencies": {
-    "commander": "~2.1.0",
     "async": "~0.2.10",
     "wait": "~0.1.0",
     "annomath": "~0.3.2",
-    "cron": "~1.0.3"
+    "cron": "~1.0.3",
+    "minimist": "0.0.7"
   },
   "devDependencies": {
     "cheerio": "~0.13.1",

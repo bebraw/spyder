@@ -3,29 +3,26 @@
 var async = require('async');
 var cronJob = require('cron').CronJob;
 var math = require('annomath');
-var program = require('commander');
+var minimist = require('minimist');
 var wait = require('wait').wait;
-
-var VERSION = require('./package.json').version;
 
 
 main();
 
 function main() {
-    program.version(VERSION).
-        option('-c --config <configuration file>', 'Configuration in JavaScript').
-        parse(process.argv);
+    var argv = minimist(process.argv.slice(2));
+    var config = argv.c || argv.config;
 
-    if(!program.config) {
+    if(!config) {
         return console.error('Missing configuration');
     }
 
-    var config = loadModule(program.config, 'configuration');
+    var config = loadModule(config, 'configuration');
 
-    init(config);
+    init(argv, config);
 }
 
-function init(config) {
+function init(argv, config) {
     if(!config) {
         return;
     }
@@ -41,32 +38,32 @@ function init(config) {
 
     if(conf.indexer && conf.scraper) {
         if(config.instant) {
-            execute(conf);
+            execute(argv, conf);
         }
 
-        schedule(config.schedule, conf);
+        schedule(argv, config.schedule, conf);
     }
 }
 
-function schedule(cron, conf) {
+function schedule(argv, cron, conf) {
     if(!cron) {
         console.error('Missing schedule!');
     }
 
     console.log('execute');
 
-    new cronJob(cron, execute.bind(null, conf), null, true);
+    new cronJob(cron, execute.bind(null, argv, conf), null, true);
 }
 
-function execute(o) {
-    o.indexer(function(err, targets) {
+function execute(argv, o) {
+    o.indexer(argv, function(err, targets) {
         if(err) {
             return o.onError(err);
         }
 
         async.eachSeries(targets, function(target, cb) {
             wait(math.randint(0, o.variance), function() {
-                o.scraper(target, function(err, result) {
+                o.scraper(argv, target, function(err, result) {
                     if(err) {
                         // keep on running even if we get an error
                         o.onError(err);

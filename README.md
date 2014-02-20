@@ -27,7 +27,7 @@ module.exports = {
 `indexer` and `scraper` point to modules that do the actual work. An `indexer` could look like this:
 
 ```js
-module.exports = function(cb) {
+module.exports = function(o, cb) {
     // index some page or pages here
 
     // once finished, cb
@@ -37,10 +37,12 @@ module.exports = function(cb) {
 };
 ```
 
+The first parameter contains all arguments passed to `spyder`. This way you may customize behavior of the indexer easily.
+
 A `scraper` could look like this:
 
 ```js
-module.exports = function(url, cb) {
+module.exports = function(o, url, cb) {
     // scrape the content from url now
 
     // once finished, cb
@@ -49,6 +51,8 @@ module.exports = function(url, cb) {
     });
 };
 ```
+
+The same idea applies here. First the function receives arguments passed to spyder, then url to scrape and finally a callback to call when finished.
 
 `spyder` takes care of running these modules for you. First an indexer is invoked. After that it runs the scraper against each url indexed.
 
