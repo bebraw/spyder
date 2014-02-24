@@ -17,7 +17,7 @@ function main() {
         return console.error('Missing configuration');
     }
 
-    var config = loadModule(config, 'configuration');
+    config = loadModule(config, 'configuration');
 
     init(argv, config);
 }
@@ -37,11 +37,19 @@ function init(argv, config) {
     };
 
     if(conf.indexer && conf.scraper) {
-        if(config.instant) {
-            execute(argv, conf);
-        }
+        var initializer = loadInitializer(config.initializer);
 
-        schedule(argv, config.schedule, conf);
+        initializer(argv, function(err) {
+            if(err) {
+                return conf.onError(err);
+            }
+
+            if(config.instant) {
+                execute(argv, conf);
+            }
+
+            schedule(argv, config.schedule, conf);
+        });
     }
 }
 
@@ -89,6 +97,16 @@ function loadConfig(config, name, defaultFn) {
     }
 
     return defaultFn;
+}
+
+function loadInitializer(path) {
+    try {
+        return require(path);
+    } catch(e) {
+        return function(o, cb) {
+            cb();
+        };
+    }
 }
 
 function loadModule(path, name) {

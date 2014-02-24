@@ -7,6 +7,8 @@ Consider the following `config.js` for basic configuration:
 
 ```js
 module.exports = {
+    // workers
+    initializer: './init', // optional
     indexer: './indexer',
     scraper: './scraper',
 
@@ -22,9 +24,28 @@ module.exports = {
 };
 ```
 
-## Indexer and Scraper
+## Workers
 
-`indexer` and `scraper` point to modules that do the actual work. An `indexer` could look like this:
+`spyder` provides three workers into which you may attach actual functionality. `initializer` is executed once when `spyder` process is started. You may set auth keys and such there. `indexer` is run once per scraping round. `scraper` is executed per each url returned by `indexer`.
+
+### Initializer
+
+`initializer` is optional. A basic implementation could look like this:
+
+```js
+module.exports = function(o, cb) {
+    // do something with o now
+    // ...
+
+    cb(); // done
+}
+```
+
+The first parameter will contain arguments passed to `spyder` process. This behavior is the same for all workers.
+
+### Indexer
+
+An `indexer` could look like this:
 
 ```js
 module.exports = function(o, cb) {
@@ -37,7 +58,9 @@ module.exports = function(o, cb) {
 };
 ```
 
-The first parameter contains all arguments passed to `spyder`. This way you may customize behavior of the indexer easily.
+Remember to return the urls you want to scrape here. In case you run into error, pass it as the first parameter to the callback.
+
+### Scraper
 
 A `scraper` could look like this:
 
@@ -52,9 +75,7 @@ module.exports = function(o, url, cb) {
 };
 ```
 
-The same idea applies here. First the function receives arguments passed to spyder, then url to scrape and finally a callback to call when finished.
-
-`spyder` takes care of running these modules for you. First an indexer is invoked. After that it runs the scraper against each url indexed.
+The same idea as earlier applies here. First the function receives arguments passed to spyder, then url to scrape and finally a callback to call when finished.
 
 ## Events
 
