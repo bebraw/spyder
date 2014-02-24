@@ -8,14 +8,14 @@ Consider the following `config.js` for basic configuration:
 ```js
 module.exports = {
     // workers
-    initializer: './init', // optional
-    indexer: './indexer',
-    scraper: './scraper',
+    initializer: require('./init'), // optional
+    indexer: require('./indexer'),
+    scraper: require('./scraper'),
 
     // event handlers (optional)
-    onError: './error',
-    onResult: './result',
-    onFinish: './finish',
+    onError: require('./error'),
+    onResult: require('./result'),
+    onFinish: require('./finish'),
 
     // time controls
     variance: 5000, // variance between operations in ms
@@ -38,7 +38,7 @@ module.exports = function(o, cb) {
     // ...
 
     cb(); // done
-}
+};
 ```
 
 The first parameter will contain arguments passed to `spyder` process. This behavior is the same for all workers.

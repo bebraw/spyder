@@ -1,11 +1,11 @@
 module.exports = {
-    initializer: './demo/init',
-    indexer: './demo/indexer',
-    scraper: './demo/scraper',
+    initializer: require('./init'),
+    indexer: require('./indexer'),
+    scraper: require('./scraper'),
 
-    onError: './demo/handlers/error',
-    onResult: './demo/handlers/result',
-    onFinish: './demo/handlers/finish',
+    onError: require('./handlers/error'),
+    onResult: require('./handlers/result'),
+    onFinish: require('./handlers/finish'),
 
     variance: 5000,
     schedule: '00 00 11 * * *',

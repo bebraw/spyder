@@ -28,29 +28,35 @@ function init(argv, config) {
     }
 
     var conf = {
-        indexer: loadModule(config.indexer, 'indexer'),
-        scraper: loadModule(config.scraper, 'scraper'),
-        onError: loadConfig(config, 'onError', console.error.bind(console)),
-        onResult: loadConfig(config, 'onResult', console.log.bind(console)),
-        onFinish: loadConfig(config, 'onFinish', console.log.bind(console, 'Finished')),
+        indexer: config.indexer,
+        scraper: config.scraper,
+        onError: config.onError || console.error.bind(console),
+        onResult: config.onResult || console.log.bind(console),
+        onFinish: config.onFinish || console.log.bind(console, 'Finished'),
         variance: config.variance || 0
     };
 
-    if(conf.indexer && conf.scraper) {
-        var initializer = loadInitializer(config.initializer);
-
-        initializer(argv, function(err) {
-            if(err) {
-                return conf.onError(err);
-            }
-
-            if(config.instant) {
-                execute(argv, conf);
-            }
-
-            schedule(argv, config.schedule, conf);
-        });
+    if(!config.indexer) {
+        return console.error('Missing indexer!');
     }
+
+    if(!config.scraper) {
+        return console.error('Missing scraper!');
+    }
+
+    var initializer = config.initializer || function(err, cb) {cb();};
+
+    initializer(argv, function(err) {
+        if(err) {
+            return conf.onError(err);
+        }
+
+        if(config.instant) {
+            execute(argv, conf);
+        }
+
+        schedule(argv, config.schedule, conf);
+    });
 }
 
 function schedule(argv, cron, conf) {
@@ -89,30 +95,10 @@ function execute(argv, o) {
     });
 }
 
-function loadConfig(config, name, defaultFn) {
-    var property = config[name];
-
-    if(property) {
-        return loadModule(property, name);
-    }
-
-    return defaultFn;
-}
-
-function loadInitializer(path) {
-    try {
-        return require(path);
-    } catch(e) {
-        return function(o, cb) {
-            cb();
-        };
-    }
-}
-
 function loadModule(path, name) {
     try {
         return require(path);
     } catch(e) {
-        return console.error('Failed to load ' + name + '!');
+        return console.error('Failed to load ' + name + '!', e);
     }
 }
