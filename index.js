@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+var path = require('path');
+
 var async = require('async');
 var cronJob = require('cron').CronJob;
 var math = require('annomath');
@@ -95,9 +97,9 @@ function execute(argv, o) {
     });
 }
 
-function loadModule(path, name) {
+function loadModule(p, name) {
     try {
-        return require(path);
+        return require('./' + path.relative(__dirname, path.join(process.cwd(), p)));
     } catch(e) {
         return console.error('Failed to load ' + name + '!', e);
     }
