@@ -24,6 +24,8 @@ module.exports = {
 };
 ```
 
+Configuration parameters may be overridden simply by passing them to the tool as arguments. For instance `spyder -c config.js --instant` would execute instantly no matter what you have in your configuration.
+
 ## Workers
 
 `spyder` provides three workers into which you may attach actual functionality. `initializer` is executed once when `spyder` process is started. You may set auth keys and such there. `indexer` is run once per scraping round. `scraper` is executed per each url returned by `indexer`.

@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+var extend = require('util')._extend;
 var path = require('path');
 
 var async = require('async');
@@ -19,7 +20,7 @@ function main() {
         return console.error('Missing configuration');
     }
 
-    config = loadModule(config, 'configuration');
+    config = extend(loadModule(config, 'configuration'), argv);
 
     init(argv, config);
 }
