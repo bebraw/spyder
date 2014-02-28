@@ -64,10 +64,8 @@ function init(argv, config) {
 
 function schedule(argv, cron, conf) {
     if(!cron) {
-        console.error('Missing schedule!');
+        return console.error('Missing schedule!');
     }
-
-    console.log('execute');
 
     new cronJob(cron, execute.bind(null, argv, conf), null, true);
 }
