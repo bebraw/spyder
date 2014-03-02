@@ -81,12 +81,12 @@ The same idea as earlier applies here. First the function receives arguments pas
 
 ## Events
 
-In case an error is received, module defined at `onError` is defined. When a scraping result is received, `onResult` module is invoked. Once the whole process has finished, `onFinished` is invoked. To give you an idea of what these files should look like, consider the following.
+In case an error is received, module defined at `onError` is defined. When a scraping result is received, `onResult` module is invoked. Once the whole process has finished, `onFinished` is invoked. Like above each handler receives arguments. You can for instance inject an object there at `initializer` and then use that to perform some operation. To give you an idea of what these files should look like, consider the following.
 
 `./error.js`:
 
 ```js
-module.exports = function(err) {
+module.exports = function(o, err) {
     // let's just log errors for now
     // this is also the default behavior. if you don't provide a handler,
     // spyder defaults to this
@@ -97,7 +97,7 @@ module.exports = function(err) {
 `./result.js`:
 
 ```js
-module.exports = function(result) {
+module.exports = function(o, result) {
     // got some scraping result now, do something with it
     // spyder defaults to console.log (handy during development)
     console.log(result);
@@ -107,7 +107,7 @@ module.exports = function(result) {
 `./finish.js`:
 
 ```js
-module.exports = function() {
+module.exports = function(o) {
     // spyder default
     console.log('Finished');
 }

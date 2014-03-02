@@ -51,7 +51,7 @@ function init(argv, config) {
 
     initializer(argv, function(err) {
         if(err) {
-            return conf.onError(err);
+            return conf.onError(argv, err);
         }
 
         if(config.instant) {
@@ -73,7 +73,7 @@ function schedule(argv, cron, conf) {
 function execute(argv, o) {
     o.indexer(argv, function(err, targets) {
         if(err) {
-            return o.onError(err);
+            return o.onError(argv, err);
         }
 
         async.eachSeries(targets, function(target, cb) {
@@ -81,17 +81,17 @@ function execute(argv, o) {
                 o.scraper(argv, target, function(err, result) {
                     if(err) {
                         // keep on running even if we get an error
-                        o.onError(err);
+                        o.onError(argv, err);
                     }
                     else {
-                        o.onResult(result);
+                        o.onResult(argv, result);
                     }
 
                     cb();
                 });
             });
         }, function() {
-            o.onFinish();
+            o.onFinish(argv);
         });
     });
 }
