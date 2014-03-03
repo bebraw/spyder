@@ -20,12 +20,10 @@ function main() {
         return console.error('Missing configuration');
     }
 
-    config = extend(loadModule(config, 'configuration'), argv);
-
-    init(argv, config);
+    init(extend(loadModule(config, 'configuration'), argv));
 }
 
-function init(argv, config) {
+function init(config) {
     if(!config) {
         return;
     }
@@ -49,49 +47,49 @@ function init(argv, config) {
 
     var initializer = config.initializer || function(err, cb) {cb();};
 
-    initializer(argv, function(err) {
+    initializer(config, function(err) {
         if(err) {
-            return conf.onError(argv, err);
+            return conf.onError(config, err);
         }
 
         if(config.instant) {
-            execute(argv, conf);
+            execute(config, conf);
         }
 
-        schedule(argv, config.schedule, conf);
+        schedule(config, config.schedule, conf);
     });
 }
 
-function schedule(argv, cron, conf) {
+function schedule(config, cron, conf) {
     if(!cron) {
         return console.error('Missing schedule!');
     }
 
-    new cronJob(cron, execute.bind(null, argv, conf), null, true);
+    new cronJob(cron, execute.bind(null, config, conf), null, true);
 }
 
-function execute(argv, o) {
-    o.indexer(argv, function(err, targets) {
+function execute(config, o) {
+    o.indexer(config, function(err, targets) {
         if(err) {
-            return o.onError(argv, err);
+            return o.onError(config, err);
         }
 
         async.eachSeries(targets, function(target, cb) {
             wait(math.randint(0, o.variance), function() {
-                o.scraper(argv, target, function(err, result) {
+                o.scraper(config, target, function(err, result) {
                     if(err) {
                         // keep on running even if we get an error
-                        o.onError(argv, err);
+                        o.onError(config, err);
                     }
                     else {
-                        o.onResult(argv, result);
+                        o.onResult(config, result);
                     }
 
                     cb();
                 });
             });
         }, function() {
-            o.onFinish(argv);
+            o.onFinish(config);
         });
     });
 }
