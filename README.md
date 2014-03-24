@@ -97,10 +97,13 @@ module.exports = function(o, err) {
 `./result.js`:
 
 ```js
-module.exports = function(o, result) {
+module.exports = function(o, result, cb) {
     // got some scraping result now, do something with it
     // spyder defaults to console.log (handy during development)
     console.log(result);
+
+    // the callback is optional and allows you to communicate possible errors
+    cb(new Error('Demo error'));
 };
 ```
 

@@ -89,7 +89,11 @@ function execute(config, o) {
                         o.onError(config, err);
                     }
                     else {
-                        o.onResult(config, result);
+                        o.onResult(config, result, function(err) {
+                            if(err) {
+                                o.onError(config, err);
+                            }
+                        });
                     }
 
                     cb();
