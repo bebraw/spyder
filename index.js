@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+'use strict';
+
 var extend = require('util')._extend;
 var path = require('path');
 
@@ -44,6 +46,11 @@ function init(config) {
     if(!config.scraper) {
         return console.error('Missing scraper!');
     }
+
+    process.on('uncaughtException', function(err) {
+        // keep on running even if we get an error
+        conf.onError(config, err.stack);
+    });
 
     var initializer = config.initializer || function(err, cb) {cb();};
 
