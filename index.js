@@ -16,13 +16,14 @@ main();
 
 function main() {
     var argv = minimist(process.argv.slice(2));
-    var config = argv.c || argv.config;
+    var configPath = argv.c || argv.config || path.join(argv._[0], 'spyder_config');
+    var baseConfig = loadModule(configPath, 'configuration');
 
-    if(!config) {
-        return console.error('Missing configuration');
+    if(!baseConfig) {
+        return console.error('Failed to load configuration');
     }
 
-    init(extend(loadModule(config, 'configuration'), argv));
+    init(extend(baseConfig, argv));
 }
 
 function init(config) {

@@ -3,6 +3,10 @@
 
 `spyder` provides basic architecture for running perpetual web indexers and scrapers. It comes as a CLI tool which you then provide configuration using either `-c` or `--config` parameter (`spyder -c ./config.js`).
 
+It is also possible to provide a directory with `spyder_config.js` in it. In that case `spyder` tries to load the configuration automatically. Example: `spyder demo`.
+
+You can also pass additional parameters to both commands. They will override the default configuration.
+
 Consider the following `config.js` for basic configuration:
 
 ```js

@@ -15,6 +15,7 @@ module.exports = function(o, url, cb) {
         var error;
         var $ = cheerio.load(data);
 
+        // this should give an error which spyder catches!
         if(error[0] === 'foo') {
             console.log('foobar');
         }
