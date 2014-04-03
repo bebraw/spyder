@@ -7,15 +7,15 @@
     "spyder": "./index.js"
   },
   "dependencies": {
-    "async": "~0.2.10",
-    "wait": "~0.1.0",
-    "annomath": "~0.3.2",
-    "cron": "~1.0.3",
+    "async": "0.2.10",
+    "wait": "0.1.0",
+    "annomath": "0.3.2",
+    "cron": "1.0.4",
     "minimist": "0.0.7"
   },
   "devDependencies": {
-    "cheerio": "~0.13.1",
-    "request": "~2.33.0"
+    "cheerio": "0.14.0",
+    "request": "2.34.0"
   },
   "repository": {
     "type": "git",
