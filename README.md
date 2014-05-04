@@ -16,19 +16,15 @@ module.exports = {
     indexer: require('./indexer'),
     scraper: require('./scraper'),
 
-    // event handlers (optional)
+    // events
     onError: require('./error'),
     onResult: require('./result'),
     onFinish: require('./finish'),
 
-    // time controls
-    variance: 5000, // variance between operations in ms
-    schedule: '00 30 11 * * 1', // cron pattern for running the spider (optional)
-    instant: true // execute instantly (defaults to false). handy for testing
+    // other
+    variance: 5000 // variance between scrape operations in ms
 };
 ```
-
-Configuration parameters may be overridden simply by passing them to the tool as arguments. For instance `spyder -c config.js --instant` would execute instantly no matter what you have in your configuration.
 
 ## Workers
 
@@ -120,15 +116,9 @@ module.exports = function(o) {
 }
 ```
 
-## Timing Options
+## Other
 
-In order to provide some control over timing of the indexing and scraping `spyder` provides `variance` and `perDay` options.
-
-`variance` is given in milliseconds and refers to possible maximum delay between operations. It is possible to make `spyder` spam target sites less this way and make the traffic easier to deal with.
-
-`schedule` defines when to execute the spider using a [cron pattern](http://en.wikipedia.org/wiki/Cron).
-
-If `instant` flag is set, the spider will execute instantly. The flag defaults to false. This is handy for testing.
+* `variance` - Use `variance` to add arbitrary, random delay between scrape operations to make traffic look more irregular.
 
 ## License
 

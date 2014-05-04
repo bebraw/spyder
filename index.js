@@ -1,12 +1,10 @@
 #!/usr/bin/env node
-
 'use strict';
 
 var extend = require('util')._extend;
 var path = require('path');
 
 var async = require('async');
-var cronJob = require('cron').CronJob;
 var math = require('annomath');
 var minimist = require('minimist');
 var wait = require('wait').wait;
@@ -60,20 +58,8 @@ function init(config) {
             return conf.onError(config, err);
         }
 
-        if(config.instant) {
-            execute(config, conf);
-        }
-
-        schedule(config, config.schedule, conf);
+        execute(config, conf);
     });
-}
-
-function schedule(config, cron, conf) {
-    if(!cron) {
-        return console.error('Missing schedule!');
-    }
-
-    new cronJob(cron, execute.bind(null, config, conf), null, true);
 }
 
 function execute(config, o) {
