@@ -3,8 +3,9 @@
   "description": "Indexer and scraper runner",
   "author": "Juho Vepsalainen <bebraw@gmail.com>",
   "version": "0.5.1",
+  "main": "./index.js",
   "bin": {
-    "spyder": "./index.js"
+    "spyder": "./cli.js"
   },
   "dependencies": {
     "async": "0.2.10",

@@ -1,31 +1,15 @@
 #!/usr/bin/env node
 'use strict';
 
-var extend = require('util')._extend;
-var path = require('path');
-
 var async = require('async');
 var math = require('annomath');
-var minimist = require('minimist');
 var wait = require('wait').wait;
 
 
-main();
-
-function main() {
-    var argv = minimist(process.argv.slice(2));
-    var configPath = argv.c || argv.config || path.join(argv._[0], 'spyder_config');
-    var baseConfig = loadModule(configPath, 'configuration');
-
-    if(!baseConfig) {
-        return console.error('Failed to load configuration');
-    }
-
-    init(extend(baseConfig, argv));
-}
-
-function init(config) {
+module.exports = function(config) {
     if(!config) {
+        console.warn('Missing configuration');
+
         return;
     }
 
@@ -60,7 +44,7 @@ function init(config) {
 
         execute(config, conf);
     });
-}
+};
 
 function execute(config, o) {
     o.indexer(config, function(err, targets) {
@@ -90,12 +74,4 @@ function execute(config, o) {
             o.onFinish(config);
         });
     });
-}
-
-function loadModule(p, name) {
-    try {
-        return require('./' + path.relative(__dirname, path.join(process.cwd(), p)));
-    } catch(e) {
-        return console.error('Failed to load ' + name + '!', e);
-    }
 }

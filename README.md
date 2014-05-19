@@ -7,6 +7,18 @@ It is also possible to provide a directory with `spyder_config.js` in it. In tha
 
 You can also pass additional parameters to both commands. They will override the default configuration.
 
+## As a Module
+
+`spyder` can also be used as a regular Node module. It expects configuration as its parameter like this:
+
+```js
+var spyder = require('spyder');
+
+spyder({...});
+```
+
+## config.js
+
 Consider the following `config.js` for basic configuration:
 
 ```js
