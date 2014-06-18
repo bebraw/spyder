@@ -2,7 +2,7 @@
   "name": "spyder",
   "description": "Indexer and scraper runner",
   "author": "Juho Vepsalainen <bebraw@gmail.com>",
-  "version": "0.5.2",
+  "version": "0.6.0",
   "main": "./index.js",
   "bin": {
     "spyder": "./cli.js"
