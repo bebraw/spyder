@@ -7,12 +7,18 @@ var path = require('path');
 var minimist = require('minimist');
 
 var spyder = require('./');
+var meta = require('./package.json');
 
 
 main();
 
 function main() {
     var argv = minimist(process.argv.slice(2));
+
+    if('v' in argv || 'version' in argv) {
+        return console.log(meta.name + ' ' + meta.version);
+    }
+
     var configDir = argv._ && argv._[0];
 
     if(!configDir) {
