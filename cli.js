@@ -13,7 +13,13 @@ main();
 
 function main() {
     var argv = minimist(process.argv.slice(2));
-    var configPath = argv.c || argv.config || path.join(argv._[0], 'spyder_config');
+    var configDir = argv._ && argv._[0];
+
+    if(!configDir) {
+        return console.error('Missing configuration directory');
+    }
+
+    var configPath = argv.c || argv.config || path.join(configDir, 'spyder_config');
     var baseConfig = loadModule(configPath, 'configuration');
 
     if(!baseConfig) {
