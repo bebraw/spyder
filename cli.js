@@ -37,8 +37,14 @@ function main() {
 
 function loadModule(p, name) {
     try {
-        return require('./' + path.relative(__dirname, path.join(process.cwd(), p)));
-    } catch(e) {
-        return console.error('Failed to load ' + name + '!', e);
+        return require(p);
+    }
+    catch(e) {
+        try {
+            return require('./' + path.relative(__dirname, path.join(process.cwd(), p)));
+        }
+        catch(e) {
+            return console.error('Failed to load ' + name + '!', e);
+        }
     }
 }
