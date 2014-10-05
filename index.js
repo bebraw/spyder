@@ -16,7 +16,7 @@ module.exports = function(config) {
     var conf = {
         indexer: config.indexer,
         scraper: config.scraper,
-        onError: config.onError || console.error.bind(console),
+        onError: config.onError || console.trace.bind(console),
         onResult: config.onResult || console.log.bind(console),
         onFinish: config.onFinish || console.log.bind(console, 'Finished'),
         variance: config.variance || 0
